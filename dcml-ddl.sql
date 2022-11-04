@@ -1,4 +1,4 @@
-create unlogged table covid19.dcml_items (
+create table covid19.dcml_items (
     item_id         integer primary key,
     title           text not null,
     slug            text not null,
@@ -16,7 +16,7 @@ create unlogged table covid19.dcml_items (
 comment on table covid19.dcml_items is
 'Metadata for the DocumentCloud docs downloaded for machine learning purposes.';
 
-create unlogged table covid19.dcml_pdfs (
+create table covid19.dcml_pdfs (
     item_id         integer     primary key,
 	processed       timestamp with time zone not null default current_timestamp,
 	filename        text        not null,
@@ -25,7 +25,7 @@ create unlogged table covid19.dcml_pdfs (
     );
 comment on column covid19.dcml_pdfs.size is 'Size of PDF in bytes';
 
-create unlogged table covid19.dcml_pdfpages (
+create table covid19.dcml_pdfpages (
     item_id         integer     not null
                     references  covid19.dcml_pdfs,
     pg              integer     not null,
@@ -34,6 +34,6 @@ create unlogged table covid19.dcml_pdfpages (
     body            text,
     primary key (item_id, pg)
     );
--- post create and load of items
+-- 
 alter table covid19.dcml_pdfs add foreign key (item_id)
    references covid19.dcml_items;
